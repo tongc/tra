@@ -1,13 +1,8 @@
 var Parallel = require('paralleljs');
 var http = require("http");
 var junitp = require('./junitparser');
-junitp.run();
 
-    var p = new Parallel('readtestreport', { evalPath: 'node_modules/paralleljs/lib/eval.js' });
-    p.require('junitparser.js')
-    .spawn(function (a) { 
-    	return run(); 
-    }, 3);
+var result = junitp.run();
 
 http.createServer(function(request, response) {
     // Send the HTTP header 
@@ -17,15 +12,8 @@ http.createServer(function(request, response) {
         'Content-Type': 'text/plain'
     });
 
-    var p = new Parallel('readtestreport', { evalPath: 'node_modules/paralleljs/lib/eval.js' });
-    p.require('junitparser.js')
-    .spawn(function (a) { 
-    	return run(); 
-    }, 3);
-
-    response.end(String(p.data));
+    response.end(String(result));
 }).listen(8081);
-
 
 
 // Console will print the message
