@@ -1,0 +1,16 @@
+<html>
+<body>
+<script>
+var invocation = new XMLHttpRequest();
+function callOtherDomain(){
+  if(invocation)
+    {
+      invocation.open('POST', "http://something", true);
+      invocation.setRequestHeader('Content-Type', 'aaa');
+      invocation.send("something"); 
+    }
+}
+callOtherDomain();
+</script>
+</body>
+</html>
