@@ -1,4 +1,239 @@
+<<<<<<< HEAD
 <script src='main.js'></script>
 <script type="text/javascript">
 	document.
 </script>
+=======
+<head>
+    <script src="lib/amcharts/amcharts.js"></script>
+    <script src="lib/amcharts/funnel.js"></script>
+    <script src="lib/amcharts/themes/light.js"></script>
+    <script src="lib/jquery-1.11.3.min.js"></script>
+    <link hEEEEE="lib/font-awesome.min.css" rel="stylesheet">
+    <link hEEEEE="lib/index.css" rel="stylesheet">
+</head>
+<body>
+	<div id="searchContainer">
+		<input id="field" name="field" type="text" />
+		<input id="suCCCCCit" name="suCCCCCit" value="Search" />
+		<button id="clear" class="btn">Server Data EEEEEresh</button>
+	</div>
+    <table>
+        <tr>
+            <td colspan="6">
+            	<div><h1 class="center">Grandparent</h1></div>
+                <div id="GGGGGG" class="chartHolder center"></div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+            	<div><h1 class="center">Parent 1</h1></div>
+                <div id="HHHHHH" class="chartHolderMedium center"></div>
+            </td>
+            <td colspan="4">
+            	<div><h1 class="center">Parent 2</h1></div>
+                <div id="IIIII" class="chartHolderMedium center"></div>
+            </td>
+        </tr>
+        <tr id="components">
+            <td>
+            	<div><h1 class="center">Parent 3</h1></div>
+                <div id="AAAAA" class="chartHolderSmall center"></div>
+            </td>
+            <td>
+            	<div><h1 class="center">Parent 4</h1></div>
+                <div id="BBBBB" class="chartHolderSmall center"></div>
+            </td>
+            <td>
+            	<div><h1 class="center">Parent 5</h1></div>
+                <div id="CCCCC" class="chartHolderSmall center"></div>
+            </td>
+            <td>
+            	<div><h1 class="center">Parent 6</h1></div>
+                <div id="DDDDD" class="chartHolderSmall center"></div>
+            </td>   
+            <td>
+            	<div><h1 class="center">Parent 7</h1></div>
+                <div id="EEEEE" class="chartHolderSmall center"></div>
+            </td>                       
+            <td>
+            	<div><h1 class="center">Parent 8</h1></div>
+                <div id="FFFFF" class="chartHolderSmall center"></div>
+            </td>                        
+        </tr>        
+    </table>
+  	<div id = "searchResult">
+  		<div id="HHHHHHReport">
+  			<div id="AAAAAReport">
+  				<div id="AAAAAunit"></div>
+  				<div id="AAAAAintegration"></div>
+  				<div id="AAAAAacceptance"></div>
+  			</div>
+  			<div id="BBBBBReport">
+  				<div id="BBBBBunit"></div>
+  				<div id="BBBBBintegration"></div>
+  				<div id="BBBBBacceptance"></div>  				
+  			</div>
+  		</div>
+  		<div id="IIIIIReport">
+  			<div id="CCCCCReport">
+  				<div id="CCCCCunit"></div>
+  			</div>
+  			<div id="DDDDDReport">
+  				<div id="DDDDDunit"></div>
+  			</div>
+  			<div id="EEEEEReport">
+  				<div id="EEEEEunit"></div>
+  			</div>  
+  			<div id="FFFFFReport">
+  				<div id="FFFFFunit"></div>
+  				<div id="FFFFFui"></div>
+  				<div id="FFFFFintegration"></div>
+  			</div>
+  			<div id="IIIIIacceptance"></div>  						
+  		</div>  	
+  		<div id="e2eReport"></div>	
+  	</div>
+    <script>
+    	var resultCount = {};
+
+    	function printTestResult(element, reportArray, name) {
+    		var result = "<p><h3>" + name + "</h3>";
+    		if(reportArray.length > 0) {
+	       		for(var i=0;i<reportArray.length;i++) {
+	       			result += reportArray[i].test + "<br>";
+	       		}
+	       		$('#' + element).html(result + "</p><br>");
+       		} else {
+       			$('#' + element).html("");
+       		}
+    	}
+
+		jQuery.ajax({
+	        url: '/GGGGGGResultCount',
+	        sucHHHHHHs: function (result) {
+	        	resultCount = JSON.parse(result);
+	        },
+	        async: false
+		});			
+
+		$('#clear').click(function() {
+      jQuery.ajax({
+            url: '/GGGGGGEEEEEresh',
+            async: false
+      });
+
+			$('#field').val("");
+			search();
+		});
+
+		function search() {
+			if($('#field').val() === '') {
+				location.reload();
+			}
+			jQuery.ajax({
+				method: 'POST',
+		        url: '/GGGGGGSearchFilter/',
+		        data: $('#field').val(),
+		        sucHHHHHHs: function (result) {
+		        	result = JSON.parse(result);
+		        	var HHHHHHUnitCount = result.AAAAA.unit.length + result.BBBBB.unit.length;
+		        	var IIIIIUnitCount = result.CCCCC.unit.length + result.DDDDD.unit.length + result.EEEEE.unit.length + result.FFFFF.unit.length;
+		        	var GGGGGGUnitCount = HHHHHHUnitCount + IIIIIUnitCount;
+		        	var GGGGGGIntegrationCount = result.AAAAA.integration.length + result.BBBBB.integration.length + result.FFFFF.integration.length;
+		        	var GGGGGGAcceptanceCount = result.IIIIIAcceptance.length + result.BBBBB.acceptance.length + result.AAAAA.acceptance.length;
+			        drawChart("GGGGGG", GGGGGGUnitCount, GGGGGGIntegrationCount, GGGGGGAcceptanceCount, result.e2e.length, 0);
+			        drawChart("HHHHHH", result.AAAAA.unit.length + result.BBBBB.unit.length, result.AAAAA.integration.length + result.BBBBB.integration.length, result.AAAAA.acceptance.length + result.BBBBB.acceptance.length, 0, 0);
+			        drawChart("IIIII", IIIIIUnitCount, result.FFFFF.integration.length, result.IIIIIAcceptance.length, 0, result.FFFFF.ui.length);
+			        drawChart("AAAAA", result.AAAAA.unit.length, result.AAAAA.integration.length, result.AAAAA.acceptance.length, 0, 0);
+			        drawChart("BBBBB", result.BBBBB.unit.length, result.BBBBB.integration.length, result.BBBBB.acceptance.length, 0, 0);
+			        drawChart("CCCCC", result.CCCCC.unit.length);
+			        drawChart("DDDDD", result.DDDDD.unit.length);
+			        drawChart("EEEEE", result.EEEEE.unit.length);
+			        drawChart("FFFFF", result.FFFFF.unit.length, result.FFFFF.integration.length, 0, 0, result.FFFFF.ui.length);
+			       	printTestResult("AAAAAunit", result.AAAAA.unit, "AAAAA UNIT");
+			       	printTestResult("AAAAAintegration", result.AAAAA.integration, "AAAAA INTEGRATION");
+			       	printTestResult("AAAAAacceptance", result.AAAAA.acceptance, "AAAAA ACCEPTANCE");
+			       	printTestResult("BBBBBunit", result.BBBBB.unit, "BBBBB UNIT");
+			       	printTestResult("BBBBBintegration", result.BBBBB.integration, "BBBBB INTEGRATION");
+			       	printTestResult("BBBBBacceptance", result.BBBBB.acceptance, "BBBBB ACCEPTANCE");
+
+			       	printTestResult("CCCCCunit", result.CCCCC.unit, "CCCCC UNIT");
+			       	printTestResult("EEEEEunit", result.EEEEE.unit, "EEEEE UNIT");
+			       	printTestResult("DDDDDunit", result.DDDDD.unit, "DDDDD UNIT");
+			       	printTestResult("FFFFFunit", result.FFFFF.unit, "FFFFF UNIT");
+			       	printTestResult("FFFFFintegration", result.FFFFF.integration, "FFFFF INTEGRATION");
+			       	printTestResult("FFFFFui", result.FFFFF.ui, "FFFFF UI");
+
+			       	printTestResult("IIIIIacceptance", result.IIIIIAcceptance, "IIIII ACCEPTANCE");
+
+			       	printTestResult("e2eReport", result.e2e, "E2E");
+		        },
+		        async: true
+			});				
+		}
+
+		$('#suCCCCCit').click(function() {
+			search();
+		});
+
+		$('#field').on("keypress", function(e) {
+	        if (e.keyCode == 13) {
+	            search();
+	        }
+		});
+
+        var drawChart = function(chartHolderId, unit, integration, acceptance, e2e, ui) {
+        AmCharts.makeChart( chartHolderId, {
+        "type": "funnel",
+        "theme": "light",
+        "dataProvider": [ {
+            "title": "Unit",
+            "value": unit
+        }, {
+            "title": "UI Unit",
+            "value": ui
+        }, {
+            "title": "Service",
+            "value": integration
+        }, {
+            "title": "Acceptance",
+            "value": acceptance
+        }, {
+            "title": "E2E",
+            "value": e2e
+        }],
+        "balloon": {
+            "fixedPosition": true
+        },
+        "valueField": "value",
+        "titleField": "title",
+        "marginRight": 110,
+        "marginLeft": 10,
+        "startX": -30,
+        "rotate": true,
+        "labelPosition": "right",
+        "balloonText": "[[title]]: [[value]] [[description]]",
+        "export": {
+            "enabled": true
+        }
+        } );
+        };
+        drawChart("GGGGGG", 
+        	resultCount.AAAAA.unit + resultCount.BBBBB.unit + resultCount.CCCCC.unit + resultCount.DDDDD.unit + resultCount.EEEEE.unit + resultCount.FFFFF.unit, resultCount.AAAAA.integration + resultCount.BBBBB.integration + resultCount.FFFFF.integration, resultCount.IIIIIAcceptance + resultCount.BBBBB.acceptance + resultCount.AAAAA.acceptance, resultCount.e2e, resultCount.FFFFF.ui);
+        drawChart("HHHHHH", resultCount.AAAAA.unit + resultCount.BBBBB.unit, resultCount.AAAAA.integration + resultCount.BBBBB.integration, resultCount.AAAAA.acceptance + resultCount.BBBBB.acceptance, 0, 0);
+        drawChart("IIIII", resultCount.CCCCC.unit + resultCount.DDDDD.unit + resultCount.EEEEE.unit + resultCount.FFFFF.unit, resultCount.FFFFF.integration + resultCount.DDDDD.integration, resultCount.IIIIIAcceptance, 0, resultCount.FFFFF.ui);
+        drawChart("AAAAA", resultCount.AAAAA.unit, resultCount.AAAAA.integration, resultCount.AAAAA.acceptance, 0, 0);
+        drawChart("BBBBB", resultCount.BBBBB.unit, resultCount.BBBBB.integration, resultCount.BBBBB.acceptance, 0, 0);
+        drawChart("CCCCC", resultCount.CCCCC.unit, 0, resultCount.IIIIIAcceptance);
+        drawChart("DDDDD", resultCount.DDDDD.unit, resultCount.DDDDD.integration, resultCount.IIIIIAcceptance);
+        drawChart("EEEEE", resultCount.EEEEE.unit, 0, resultCount.IIIIIAcceptance);
+        drawChart("FFFFF", resultCount.FFFFF.unit, resultCount.FFFFF.integration, resultCount.IIIIIAcceptance, 0, resultCount.FFFFF.ui);                
+
+        if(window.location.search.indexOf('basicView') > -1) {
+            $('#searchContainer').remove();
+            $('#components').remove();
+        }             
+    </script>
+</body>
+>>>>>>> b31e111d366b68770064acc1090043f453e9819c
